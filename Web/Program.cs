@@ -1,3 +1,5 @@
+using Application.Interfaces;
+using Application.Services;
 using Domain.Entities;
 using Domain.Interfaces;
 using Infrastructure.Data;
@@ -24,7 +26,11 @@ builder.Services.AddScoped<IRepositoryBase<Album>, EfRepository<Album>>();
 builder.Services.AddScoped<IRepositoryBase<Cart>, EfRepository<Cart>>();
 builder.Services.AddScoped<IRepositoryBase<Music>, EfRepository<Music>>();
 builder.Services.AddScoped<IRepositoryBase<User>, EfRepository<User>>();
+#endregion
 
+#region Services
+builder.Services.AddScoped<IAlbumsService, AlbumService>();
+#endregion
 
 var app = builder.Build();
 
