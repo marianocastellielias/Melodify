@@ -1,23 +1,23 @@
-﻿using Domain.Enums;
-using System;
+﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Domain.Entities
+namespace Application.DTOs
 {
-    public class Album
+    public class AddAlbumDto
     {
-        public int Id { get; set; }
+        [Required]
         public string Title { get; set; }
+        [Required]
         public string Artist { get; set; }
+        [Required]
         public string Genre { get; set; }
+        [Required]
         public string Cover { get; set; }
-        public AlbumState State { get; set; }
-        public DateTime ReleaseDate { get; set; }
+        [Required]
         public int Stock { get; set; }
-        public decimal Price { get; set; }
-        public List<Music> Songs { get; set; }
     }
 }

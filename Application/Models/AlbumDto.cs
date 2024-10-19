@@ -1,4 +1,5 @@
-﻿using Domain.Enums;
+﻿using Domain.Entities;
+using Domain.Enums;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,9 +15,31 @@ namespace Application.DTOs
         public string Artist { get; set; }
         public string Genre { get; set; }
         public string Cover { get; set; }
-        public AlbumState State { get; set; }
         public DateTime ReleaseDate { get; set; }
-        public int Stock { get; set; }
         public decimal Price { get; set; }
+        
+        public static AlbumDto Create(Album album)
+        {
+            AlbumDto albumDto = new AlbumDto(); 
+
+            albumDto.Id = album.Id;
+            albumDto.Title = album.Title;
+            albumDto.Artist = album.Artist;
+            albumDto.Genre = album.Genre;
+            albumDto.Cover = album.Cover;
+            albumDto.ReleaseDate = album.ReleaseDate;
+            albumDto.Price = album.Price;
+
+            return albumDto;
+        }
+        public static List<AlbumDto> CreateList(IEnumerable<Album> albums)
+        {
+            var listDto = new List<AlbumDto>();
+            foreach (var album in albums)
+            {
+                listDto.Add(Create(album));
+            }
+            return listDto;
+        }
     }
 }
