@@ -8,6 +8,6 @@ namespace Domain.Enums
 {
     public enum UserRole
     {
-        Client, Artist, Admin
+        Guest, Client, Artist, Admin
     }
 }
