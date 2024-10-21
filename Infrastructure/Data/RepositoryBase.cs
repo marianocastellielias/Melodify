@@ -20,6 +20,7 @@ namespace Infrastructure.Data
         {
             return await _dbContext.Set<T>().ToListAsync();
         }
+
         public virtual async Task<T?> GetByIdAsync<TId>(TId id)
         {
             return await _dbContext.Set<T>().FindAsync(new object[] { id });

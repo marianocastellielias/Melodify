@@ -66,6 +66,7 @@ builder.Services.AddDbContext<ApplicationDbContext>(dbContextOptions => dbContex
 
 #region Repositories
 builder.Services.AddScoped<IAlbumRepository, AlbumRepository>();
+builder.Services.AddScoped<IAlbumRepository, AlbumRepository>();
 builder.Services.AddScoped<ICartRepository, CartRepository>();
 builder.Services.AddScoped<IMusicRepository, MusicRepository>();
 builder.Services.AddScoped<IUserRepository, UserRepository>();
@@ -80,6 +81,7 @@ builder.Services.AddScoped<IAuthenticationService, AuthenticationService>();
 
 #region Services
 builder.Services.AddScoped<IAlbumsService, AlbumService>();
+builder.Services.AddScoped<IUserAdminService, UserAdminService>();
 #endregion
 
 var app = builder.Build();
