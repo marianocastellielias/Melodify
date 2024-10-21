@@ -17,5 +17,6 @@ namespace Domain.Entities
         public string Address { get; set; }
         public string Phone { get; set; }
         public Cart Cart { get; set; }
+        public List<Album> Albums { get; set; }
     }
 }

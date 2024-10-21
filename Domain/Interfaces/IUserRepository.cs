@@ -9,6 +9,8 @@ namespace Domain.Interfaces
 {
     public interface IUserRepository
     {
+        User? GetUserByEmail(string? email);
+
         public interface IUserRepository : IRepositoryBase<User>
         {
         }

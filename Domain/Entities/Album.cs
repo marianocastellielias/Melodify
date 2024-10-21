@@ -19,5 +19,6 @@ namespace Domain.Entities
         public int Stock { get; set; }
         public decimal Price { get; set; }
         public List<Music> Songs { get; set; }
+        public User User { get; set; }
     }
 }
