@@ -3,6 +3,7 @@ using Domain.Enums;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using System.Security.Claims;
 
 namespace Web.Controllers
 {
@@ -18,6 +19,7 @@ namespace Web.Controllers
         }
 
         [HttpGet]
+        [Authorize(Roles = ((int)UserRole.Artist))]
         public IActionResult GetAlbums()
         {
             var albums = _albumsService.GetAlbums();
