@@ -43,11 +43,21 @@ namespace Application.Services
                 Cover = albumDto.Cover,
                 Stock = albumDto.Stock,
                 ReleaseDate = DateTime.Now,
+                Price = albumDto.Price,
                 User = user 
             };
 
             await _albumRepository.AddAsync(album);
+  
+        }
+
+        public async Task<List<AlbumDto>> GetMyAlbums(int userId)
+        {
+
+            var albums = await _userRepository.GetMyAlbumsAsync(userId);
+
+            return AlbumDto.CreateList(albums);
         }
     }
 }
-}
+

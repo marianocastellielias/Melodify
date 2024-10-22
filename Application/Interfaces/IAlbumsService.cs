@@ -12,5 +12,7 @@ namespace Application.Interfaces
         ICollection<AlbumDto> GetAlbums();
 
         Task AddAlbumAsync(AddAlbumDto albumDto, int userId);
+
+        Task<List<AlbumDto>> GetMyAlbums(int userId);
     }
 }

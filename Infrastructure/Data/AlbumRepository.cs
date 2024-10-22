@@ -15,9 +15,5 @@ namespace Infrastructure.Data
         {
         }
 
-        public async Task<Album> AddAlbumAsync(Album album)
-        {
-            return await AddAsync(album);
-        }
     }
 }

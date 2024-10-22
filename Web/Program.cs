@@ -82,7 +82,6 @@ builder.Services.AddScoped<IAuthenticationService, AuthenticationService>();
 #region Services
 builder.Services.AddScoped<IAlbumsService, AlbumService>();
 builder.Services.AddScoped<IUserAdminService, UserAdminService>();
-builder.Services.AddScoped<IUserAlbumService, UserAlbumService>();
 #endregion
 
 var app = builder.Build();

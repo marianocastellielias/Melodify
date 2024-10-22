@@ -22,10 +22,7 @@ namespace Infrastructure.Data
             return _context.Users.SingleOrDefault(p => p.Email == email);
         }
 
-        public async Task<List<User>> GetAllUsersAsync()
-        {
-            return await _context.Users.ToListAsync();
-        }
+    
 
         public async Task<List<Album>> GetMyAlbumsAsync(int userId)
         {

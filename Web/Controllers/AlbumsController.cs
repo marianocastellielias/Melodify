@@ -15,6 +15,7 @@ namespace Web.Controllers
     {
         private readonly IAlbumsService _albumsService;
         
+        
         public AlbumsController(IAlbumsService albumsService)
         {
             _albumsService = albumsService;
@@ -27,19 +28,32 @@ namespace Web.Controllers
             return Ok(albums);
         }
 
+        [Authorize(Roles = nameof(UserRole.Artist))]
         [HttpPost("create-album")]
         public async Task<IActionResult> AddAlbum([FromBody] AddAlbumDto albumDto)
         {
-            var userIdClaim = User.FindFirst(ClaimTypes.NameIdentifier);
+            int userId = int.Parse(User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier)?.Value ?? "");
 
-            if (userIdClaim == null || !int.TryParse(userIdClaim.Value, out int userId))
-            {
-                return Unauthorized();
-            }
+            
 
             await _albumsService.AddAlbumAsync(albumDto, userId);
 
             return Ok("Álbum creado exitosamente");
         }
+
+        [HttpGet("my-albums")]
+        public async Task<IActionResult> GetMyAlbums()
+        {
+
+            int userId = int.Parse(User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier)?.Value ?? "");
+
+            // var userRole = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Role)?.Value;
+
+            var albumsDto = await _albumsService.GetMyAlbums(userId);
+
+            return Ok(albumsDto);
+        }
+
+        
     }
 }
