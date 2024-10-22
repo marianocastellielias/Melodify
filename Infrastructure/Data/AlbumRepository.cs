@@ -1,5 +1,6 @@
 ﻿using Domain.Entities;
 using Domain.Interfaces;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,6 +13,11 @@ namespace Infrastructure.Data
     {
         public AlbumRepository(ApplicationDbContext context) : base(context)
         {
+        }
+
+        public async Task<Album> AddAlbumAsync(Album album)
+        {
+            return await AddAsync(album);
         }
     }
 }

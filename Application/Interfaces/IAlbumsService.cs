@@ -10,5 +10,7 @@ namespace Application.Interfaces
     public interface IAlbumsService
     {
         ICollection<AlbumDto> GetAlbums();
+
+        Task AddAlbumAsync(AddAlbumDto albumDto, int userId);
     }
 }

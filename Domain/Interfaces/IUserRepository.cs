@@ -15,5 +15,7 @@ namespace Domain.Interfaces
 
         Task<List<Album>> GetMyAlbumsAsync(int userId);
 
+        Task<User> GetByIdAsync(int id);
+
     }
 }
