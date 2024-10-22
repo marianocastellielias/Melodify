@@ -19,5 +19,8 @@ namespace Application.DTOs
         public string Cover { get; set; }
         [Required]
         public int Stock { get; set; }
+
+        [Required]
+        public decimal Price { get; set; }
     }
 }

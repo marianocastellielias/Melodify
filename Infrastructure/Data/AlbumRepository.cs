@@ -1,5 +1,6 @@
 ﻿using Domain.Entities;
 using Domain.Interfaces;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,5 +14,6 @@ namespace Infrastructure.Data
         public AlbumRepository(ApplicationDbContext context) : base(context)
         {
         }
+
     }
 }
