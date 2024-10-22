@@ -4,6 +4,7 @@ using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -11,6 +12,7 @@ namespace Infrastructure.Data
 {
     public class UserRepository : EfRepository<User>, IUserRepository
     {
+       
         public UserRepository(ApplicationDbContext context) : base(context)
         {
         }
@@ -24,5 +26,14 @@ namespace Infrastructure.Data
         {
             return await _context.Users.ToListAsync();
         }
+
+        public async Task<List<Album>> GetMyAlbumsAsync(int userId)
+        {
+            return await _context.Albums
+                .Where(album => album.User.Id == userId) 
+                .ToListAsync();
+        }
     }
-}
+
+    }
+
