@@ -12,5 +12,8 @@ namespace Domain.Interfaces
         User? GetUserByEmail(string? email);
 
         Task<List<User>> GetAllUsersAsync();
+
+        Task<List<Album>> GetMyAlbumsAsync(int userId);
+
     }
 }
