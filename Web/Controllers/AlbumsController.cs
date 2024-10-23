@@ -22,6 +22,7 @@ namespace Web.Controllers
         }
 
         [HttpGet]
+        [Authorize(Roles = ((int)UserRole.Artist))]
         public IActionResult GetAlbums()
         {
             var albums = _albumsService.GetAlbums();
