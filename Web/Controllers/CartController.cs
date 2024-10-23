@@ -17,7 +17,7 @@ namespace Web.Controllers
         [HttpGet("GetCart", Name = "GetMyCart")]
         public IActionResult GetMyCart()
         {
-            int userId = int.Parse(User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier)?.Value ?? "");
+            int userId = int.Parse(User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier)?.Value ?? "0");
             if (userId == 0)
             {
                 return NotFound("No hay un usuario logueado");
@@ -27,7 +27,7 @@ namespace Web.Controllers
         [HttpPost("{idAlbum}")]
         public IActionResult AddAlbumCart(int idAlbum)
         {
-            int userId = int.Parse(User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier)?.Value ?? "");
+            int userId = int.Parse(User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier)?.Value ?? "0");
             if (userId == 0)
             {
                 return NotFound("No hay un usuario logueado");

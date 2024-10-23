@@ -17,10 +17,11 @@ namespace Infrastructure.Data
 
         public async Task<Cart?> GetMyCartAsync(int userId)
         {
-            return await _context.Carts
-                .Include(c => c.AlbumsCart)
-                .Where(c => c.UserId == userId)
-                .SingleOrDefaultAsync();
-        }
+			return await _context.Carts
+				.Include(c => c.AlbumsCart)           
+				.ThenInclude(ac => ac.Album)            
+				.Where(c => c.UserId == userId)
+				.SingleOrDefaultAsync();
+		}
     }
 }

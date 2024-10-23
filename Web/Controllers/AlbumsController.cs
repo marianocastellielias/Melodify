@@ -22,7 +22,7 @@ namespace Web.Controllers
         }
 
         [HttpGet]
-        [Authorize(Roles = ((int)UserRole.Artist))]
+        [Authorize(Roles = nameof(UserRole.Artist))]
         public IActionResult GetAlbums()
         {
             var albums = _albumsService.GetAlbums();
@@ -33,12 +33,8 @@ namespace Web.Controllers
         [HttpPost("create-album")]
         public async Task<IActionResult> AddAlbum([FromBody] AddAlbumDto albumDto)
         {
-            int userId = int.Parse(User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier)?.Value ?? "");
-
-            
-
+            int userId = int.Parse(User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier)?.Value ?? "");   
             await _albumsService.AddAlbumAsync(albumDto, userId);
-
             return Ok("Álbum creado exitosamente");
         }
 

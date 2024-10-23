@@ -10,43 +10,44 @@ using System.Threading.Tasks;
 
 namespace Application.Services
 {
-    public class CartService : ICartService
-    {
-        private readonly ICartRepository _cartRepository;
-        private readonly IAlbumRepository _albumRepository;
-        private readonly IAlbumCartRepository _albumCartRepository;
-        public CartService(ICartRepository cartRepository, IAlbumRepository albumRepository, IAlbumCartRepository albumCartRepository)
-        {
-            _cartRepository = cartRepository;
-            _albumRepository = albumRepository;
-            _albumCartRepository = albumCartRepository;
-        }
+	public class CartService : ICartService
+	{
+		private readonly ICartRepository _cartRepository;
+		private readonly IAlbumRepository _albumRepository;
+		private readonly IAlbumCartRepository _albumCartRepository;
+		public CartService(ICartRepository cartRepository, IAlbumRepository albumRepository, IAlbumCartRepository albumCartRepository)
+		{
+			_cartRepository = cartRepository;
+			_albumRepository = albumRepository;
+			_albumCartRepository = albumCartRepository;
+		}
 
-        public CartDto GetCart(int idUser)
-        {
-            var cart = _cartRepository.GetMyCartAsync(idUser).Result;
-            return CartDto.Create(cart);
-        }
+		public CartDto GetCart(int idUser)
+		{
+			var cart = _cartRepository.GetMyCartAsync(idUser).Result;
+			return CartDto.Create(cart);
+		}
 
-        public CartDto AddAlbumCart(int idAlbum, int idUser)
-        {
-            var album = _albumRepository.GetByIdAsync(idAlbum).Result
-                ?? throw new Exception("El album ingresado no existe");
-            var cart = _cartRepository.GetMyCartAsync(idUser).Result ?? new Cart();
-            cart.UserId = idUser;
-            var albumCart = new AlbumCart()
-            {
-                CartId = cart.Id,
-                AlbumId = album.Id,
-                Album = album
-            };
-            cart.AddAlbum(albumCart);
-            if (cart.Id == 0)
-            {
-                _cartRepository.AddAsync(cart).Wait();
-            }
-            _albumCartRepository.AddAsync(albumCart).Wait();
-            return CartDto.Create(cart);
-        }
-    }
+		public CartDto AddAlbumCart(int idAlbum, int idUser)
+		{
+			var album = _albumRepository.GetByIdAsync(idAlbum).Result
+				?? throw new Exception("El album ingresado no existe");
+			var cart = _cartRepository.GetMyCartAsync(idUser).Result;
+			if (cart == null)
+			{
+				var newCart = new Cart();
+				newCart.UserId = idUser;
+				_cartRepository.AddAsync(newCart).Wait();
+				cart = _cartRepository.GetMyCartAsync(idUser).Result;
+			}
+			var albumCart = new AlbumCart()
+			{
+				AlbumId = album.Id,
+				CartId = cart.Id,
+				Album = album
+			};
+			_albumCartRepository.AddAsync(albumCart).Wait();
+			return CartDto.Create(cart);
+		}
+	}
 }
