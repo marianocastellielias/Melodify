@@ -18,6 +18,7 @@ namespace Domain.Entities
         public int UserId { get; set; }
         [ForeignKey("UserId")]
         public User User { get; set; }
-        public List<AlbumCart> AlbumsCart { get; set; }
+        public List<AlbumCart> AlbumsCart { get; set; } = [];
+        public void AddAlbum(AlbumCart albumCart) => AlbumsCart.Add(albumCart);
     }
 }

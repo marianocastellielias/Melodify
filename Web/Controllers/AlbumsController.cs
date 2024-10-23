@@ -28,7 +28,7 @@ namespace Web.Controllers
             return Ok(albums);
         }
 
-        [Authorize(Roles = nameof(UserRole.Artist))]
+        //[Authorize(Roles = nameof(UserRole.Artist))]
         [HttpPost("create-album")]
         public async Task<IActionResult> AddAlbum([FromBody] AddAlbumDto albumDto)
         {

@@ -1,4 +1,5 @@
-﻿using Domain.Enums;
+﻿using Domain.Entities;
+using Domain.Enums;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,5 +15,25 @@ namespace Application.DTOs
         public PaymentMethod PaymentMethod { get; set; }
         public CartState State { get; set; }
         public decimal Total { get; set; }
+        public List<AlbumDto> AlbumsCart { get; set; } = new List<AlbumDto>();
+        public static CartDto Create(Cart? cart)
+        {
+            var dto = new CartDto();
+            if (cart != null)
+            {
+                dto.Id = cart.Id;
+                dto.PurchaseDate = cart.PurchaseDate;
+                dto.PaymentMethod = cart.PaymentMethod;
+                dto.State = cart.State;
+                dto.Total = cart.Total;
+
+                foreach (var album in cart.AlbumsCart)
+                {
+                    dto.AlbumsCart.Add(AlbumDto.Create(album.Album));
+                }
+            }
+
+            return dto;
+        }
     }
 }

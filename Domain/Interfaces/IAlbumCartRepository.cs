@@ -7,8 +7,7 @@ using System.Threading.Tasks;
 
 namespace Domain.Interfaces
 {
-    public interface ICartRepository : IRepositoryBase<Cart>
+    public interface IAlbumCartRepository : IRepositoryBase<AlbumCart>
     {
-        Task<Cart?> GetMyCartAsync(int userId);
     }
 }

@@ -1,5 +1,6 @@
 ﻿using Domain.Entities;
 using Domain.Interfaces;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,6 +13,14 @@ namespace Infrastructure.Data
     {
         public CartRepository(ApplicationDbContext context) : base(context)
         {
+        }
+
+        public async Task<Cart?> GetMyCartAsync(int userId)
+        {
+            return await _context.Carts
+                .Include(c => c.AlbumsCart)
+                .Where(c => c.UserId == userId)
+                .SingleOrDefaultAsync();
         }
     }
 }
