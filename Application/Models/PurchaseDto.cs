@@ -23,6 +23,9 @@ namespace Application.Models
             if (cart != null)
             {
                 dto.Id = cart.Id;
+                dto.PurchaseDate = cart.PurchaseDate;
+                dto.PaymentMethod = cart.PaymentMethod;
+                dto.State = cart.State;
                 dto.Total = cart.Total;
 
                 foreach (var albumCart in cart.AlbumsCart)

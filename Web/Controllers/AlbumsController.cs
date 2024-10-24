@@ -44,9 +44,9 @@ namespace Web.Controllers
 
             // var userRole = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Role)?.Value;
 
-            var albumsDto = await _albumsService.GetMyAlbums(userId);
+            //var albumsDto = await _albumsService.GetMyAlbums(userId);
 
-            return Ok(albumsDto);
+            return Ok();
         }
 
         
