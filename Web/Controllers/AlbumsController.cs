@@ -29,7 +29,7 @@ namespace Web.Controllers
             return Ok(albums);
         }
 
-        [Authorize(Roles = nameof(UserRole.Artist) + "," + nameof(UserRole.Client))]
+        [Authorize(Roles = nameof(UserRole.Artist))]
         [HttpPost("create-album")]
         public async Task<IActionResult> AddAlbum([FromBody] AddAlbumDto albumDto)
         {
@@ -59,7 +59,7 @@ namespace Web.Controllers
             return Ok(albumsDto);
         }
 
-        [Authorize(Roles = nameof(UserRole.Artist) + "," + nameof(UserRole.Client))]
+        [Authorize(Roles = nameof(UserRole.Artist))]
         [HttpPut("update-album/{id}")]
         public async Task<IActionResult> UpdateAlbum([FromBody] UpdateAlbumDto albumDto, int id)
         {
@@ -70,7 +70,7 @@ namespace Web.Controllers
             return Ok("Álbum actualizado exitosamente");
         }
 
-        [Authorize(Roles = nameof(UserRole.Admin) + "," + nameof(UserRole.Client))]
+        [Authorize(Roles = nameof(UserRole.Admin) + "," + nameof(UserRole.Artist))]
         [HttpDelete("/Delete/{id}")]
         public IActionResult DeleteUser([FromRoute] int id)
         {
