@@ -1,4 +1,5 @@
-﻿using Domain.Enums;
+﻿using Domain.Entities;
+using Domain.Enums;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -14,7 +15,7 @@ namespace Application.DTOs
         [StringLength(20, ErrorMessage = "Supera lantidad maxima de caracteres. ")]
         public string Name { get; set; }
         [Required]
-        public UserRole Role { get; set; }
+        public string Role { get; set; }
         [Required]
         [EmailAddress]
         public string Email { get; set; }
@@ -23,5 +24,20 @@ namespace Application.DTOs
         [Required]
         [Phone]
         public string Phone { get; set; }
+
+        [Required]
+        public string Password { get; set; }
     }
+    //public static AddUserDto CreateUser(User user)
+    //{
+     //   AddUserDto addUserDto = new AddUserDto();
+       // {
+         //   addUserDto.Name = user.Name;
+          //  addUserDto.Role = user.Role; // Suponiendo que UserRole es un enum
+           // addUserDto.Email = user.Email;
+            //addUserDto.Address = user.Address;
+            //addUserDto.Phone = user.Phone;
+        //};
+        //return addUserDto;
+    //}
 }
