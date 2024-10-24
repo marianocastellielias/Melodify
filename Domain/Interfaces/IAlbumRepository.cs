@@ -9,6 +9,6 @@ namespace Domain.Interfaces
 {
     public interface IAlbumRepository : IRepositoryBase<Album>
     {
-        Task<Album> AddAsync(Album album);
+        Task<Album> GetByIdAndUserAsync(int id);
     }
 }

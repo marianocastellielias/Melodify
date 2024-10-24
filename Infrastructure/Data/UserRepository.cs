@@ -21,7 +21,23 @@ namespace Infrastructure.Data
         {
             return _context.Users.SingleOrDefault(p => p.Email == email);
         }
+
+
+
+        public async Task<List<Album>> GetMyAlbumsAsync(int userId)
+        {
+            return await _context.Albums
+                .Where(album => album.User.Id == userId)
+                .ToListAsync();
+        }
+
+        public async Task<User> GetByIdAsync(int id)
+        {
+            return await _context.Users.FindAsync(id);
+        }
     }
+
 
 }
 
+}

@@ -15,5 +15,18 @@ namespace Infrastructure.Data
         {
         }
 
+        
+
+        public async Task<Album> GetByIdAndUserAsync(int id)
+        {
+            return await _context.Albums
+                .Include((a)=>(a.User))
+                .FirstOrDefaultAsync(a => a.Id == id);
+            
+
+        }
+
+       
+
     }
 }
