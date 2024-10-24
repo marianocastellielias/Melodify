@@ -28,16 +28,11 @@ namespace Web.Controllers
             return Ok(albums);
         }
 
-        [Authorize(Roles = nameof(UserRole.Artist))]
         [HttpPost("create-album")]
         public async Task<IActionResult> AddAlbum([FromBody] AddAlbumDto albumDto)
         {
-            int userId = int.Parse(User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier)?.Value ?? "");
-
-            
-
+            int userId = int.Parse(User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier)?.Value ?? "");   
             await _albumsService.AddAlbumAsync(albumDto, userId);
-
             return Ok("Álbum creado exitosamente");
         }
 
