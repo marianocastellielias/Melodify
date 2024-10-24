@@ -27,7 +27,11 @@ namespace Application.Services
             var albums = _albumRepository.ListAsync().Result;
             return AlbumDto.CreateList(albums);
         }
-
+        //public async Task<List<AlbumDto>> GetMyAlbums(int userId)
+        //{
+        //    var albums = await _albumRepository.GetMyAlbumsAsync(userId);
+        //    return AlbumDto.CreateList(albums);
+        //}
         public async Task AddAlbumAsync(AddAlbumDto albumDto, int userId)
         {
             var user = await _userRepository.GetByIdAsync(userId);
@@ -49,15 +53,6 @@ namespace Application.Services
             };
 
             await _albumRepository.AddAsync(album);
-  
-        }
-
-        public async Task<List<AlbumDto>> GetMyAlbums(int userId)
-        {
-
-            var albums = await _userRepository.GetMyAlbumsAsync(userId);
-
-            return AlbumDto.CreateList(albums);
         }
 
         public async Task UpdateAlbumAsync(UpdateAlbumDto albumDto, int userId, int id)

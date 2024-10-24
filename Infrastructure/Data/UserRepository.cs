@@ -12,7 +12,7 @@ namespace Infrastructure.Data
 {
     public class UserRepository : EfRepository<User>, IUserRepository
     {
-       
+
         public UserRepository(ApplicationDbContext context) : base(context)
         {
         }
@@ -22,12 +22,12 @@ namespace Infrastructure.Data
             return _context.Users.SingleOrDefault(p => p.Email == email);
         }
 
-    
+
 
         public async Task<List<Album>> GetMyAlbumsAsync(int userId)
         {
             return await _context.Albums
-                .Where(album => album.User.Id == userId) 
+                .Where(album => album.User.Id == userId)
                 .ToListAsync();
         }
 
@@ -37,4 +37,7 @@ namespace Infrastructure.Data
         }
     }
 
-    }
+
+}
+
+}

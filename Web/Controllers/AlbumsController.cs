@@ -15,8 +15,8 @@ namespace Web.Controllers
     public class AlbumsController : ControllerBase
     {
         private readonly IAlbumsService _albumsService;
-        
-        
+
+
         public AlbumsController(IAlbumsService albumsService)
         {
             _albumsService = albumsService;
@@ -47,11 +47,11 @@ namespace Web.Controllers
         [HttpGet("my-albums")]
         public async Task<IActionResult> GetMyAlbums()
         {
-            
+
 
             int userId = int.Parse(User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier)?.Value ?? "");
 
-            
+
 
 
             var albumsDto = await _albumsService.GetMyAlbums(userId);
