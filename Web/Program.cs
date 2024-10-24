@@ -66,14 +66,15 @@ builder.Services.AddDbContext<ApplicationDbContext>(dbContextOptions => dbContex
 
 #region Repositories
 builder.Services.AddScoped<IAlbumRepository, AlbumRepository>();
-builder.Services.AddScoped<IAlbumRepository, AlbumRepository>();
 builder.Services.AddScoped<ICartRepository, CartRepository>();
 builder.Services.AddScoped<IMusicRepository, MusicRepository>();
 builder.Services.AddScoped<IUserRepository, UserRepository>();
+builder.Services.AddScoped<IAlbumCartRepository, AlbumCartRepository>();
 builder.Services.AddScoped<IRepositoryBase<Album>, EfRepository<Album>>();
 builder.Services.AddScoped<IRepositoryBase<Cart>, EfRepository<Cart>>();
 builder.Services.AddScoped<IRepositoryBase<Music>, EfRepository<Music>>();
 builder.Services.AddScoped<IRepositoryBase<User>, EfRepository<User>>();
+builder.Services.AddScoped<IRepositoryBase<AlbumCart>, EfRepository<AlbumCart>>();
 
 // Authentification
 builder.Services.AddScoped<IAuthenticationService, AuthenticationService>();
@@ -82,6 +83,7 @@ builder.Services.AddScoped<IAuthenticationService, AuthenticationService>();
 #region Services
 builder.Services.AddScoped<IAlbumsService, AlbumService>();
 builder.Services.AddScoped<IUserAdminService, UserAdminService>();
+builder.Services.AddScoped<ICartService, CartService>();
 #endregion
 
 var app = builder.Build();

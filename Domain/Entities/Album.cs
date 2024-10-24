@@ -18,7 +18,7 @@ namespace Domain.Entities
         public DateTime ReleaseDate { get; set; }
         public int Stock { get; set; }
         public decimal Price { get; set; }
-        public List<Music> Songs { get; set; }
+        public List<Music> Songs { get; set; } = new List<Music>();
         public User User { get; set; }
     }
 }
