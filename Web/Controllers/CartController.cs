@@ -1,4 +1,5 @@
 ﻿using Application.Interfaces;
+using Application.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
@@ -14,7 +15,7 @@ namespace Web.Controllers
         {
             _cartService = cartService;
         }
-        [HttpGet("GetCart", Name = "GetMyCart")]
+        [HttpGet("cart/GetCart", Name = "GetMyCart")]
         public IActionResult GetMyCart()
         {
             int userId = int.Parse(User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier)?.Value ?? "0");
@@ -24,16 +25,21 @@ namespace Web.Controllers
             }
             return Ok(_cartService.GetCart(userId));
         }
-        [HttpPost("{idAlbum}")]
-        public IActionResult AddAlbumCart(int idAlbum)
+        [HttpPost("cart/albums")]
+        public IActionResult AddAlbumCart([FromBody] AddAlbumToCartRequest request)
         {
             int userId = int.Parse(User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier)?.Value ?? "0");
             if (userId == 0)
             {
                 return NotFound("No hay un usuario logueado");
             }
-            var cartDto = _cartService.AddAlbumCart(idAlbum, userId);
+            var cartDto = _cartService.AddAlbumCart(request.AlbumId, userId);
             return CreatedAtAction("GetMyCart", cartDto);
+        }
+        [HttpDelete("cart/albums/{idAlbum}")]
+        public IActionResult RemoveAlbumCart(int idAlbum)
+        {
+
         }
     }
 }

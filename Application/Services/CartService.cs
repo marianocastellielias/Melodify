@@ -47,7 +47,19 @@ namespace Application.Services
 				Album = album
 			};
 			_albumCartRepository.AddAsync(albumCart).Wait();
-			return CartDto.Create(cart);
+			cart.Total = cart.AlbumsCart.Sum(a => a.Album.Price);
+            _cartRepository.UpdateAsync(cart).Wait();
+            return CartDto.Create(cart);
 		}
+
+		public void RemoveAlbumCart(int idAlbum, int idUser)
+		{
+            var album = _albumRepository.GetByIdAsync(idAlbum).Result
+				?? throw new Exception("El album ingresado no existe");
+            var cart = _cartRepository.GetMyCartAsync(idUser).Result ??
+                    throw new Exception("El carrito no existe");
+			// _albumCartRepository.DeleteAsync();
+        }
+
 	}
 }
