@@ -62,7 +62,7 @@ namespace Web.Controllers
                
         }
         [Authorize(Roles = nameof(UserRole.Admin))]
-        [HttpDelete("/Delete/{id}")]
+        [HttpDelete("/Delete-User/{id}")]
         public IActionResult DeleteUser([FromRoute]int id)
         {
            var user = _userAdminService.DeleteUser(id);
