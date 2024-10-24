@@ -24,12 +24,6 @@ namespace Infrastructure.Data
 
 
 
-        public async Task<List<Album>> GetMyAlbumsAsync(int userId)
-        {
-            return await _context.Albums
-                .Where(album => album.User.Id == userId)
-                .ToListAsync();
-        }
 
         public async Task<User> GetByIdAsync(int id)
         {
@@ -40,4 +34,4 @@ namespace Infrastructure.Data
 
 }
 
-}
+

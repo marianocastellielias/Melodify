@@ -27,11 +27,11 @@ namespace Application.Services
             var albums = _albumRepository.ListAsync().Result;
             return AlbumDto.CreateList(albums);
         }
-        //public async Task<List<AlbumDto>> GetMyAlbums(int userId)
-        //{
-        //    var albums = await _albumRepository.GetMyAlbumsAsync(userId);
-        //    return AlbumDto.CreateList(albums);
-        //}
+        public async Task<List<AlbumDto>> GetMyAlbums(int userId)
+        {
+            var albums = await _albumRepository.GetMyAlbumsAsync(userId);
+            return AlbumDto.CreateList(albums);
+        }
         public async Task AddAlbumAsync(AddAlbumDto albumDto, int userId)
         {
             var user = await _userRepository.GetByIdAsync(userId);

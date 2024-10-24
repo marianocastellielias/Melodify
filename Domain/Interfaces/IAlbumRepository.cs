@@ -10,5 +10,7 @@ namespace Domain.Interfaces
     public interface IAlbumRepository : IRepositoryBase<Album>
     {
         Task<Album> GetByIdAndUserAsync(int id);
+
+        Task<List<Album>> GetMyAlbumsAsync(int userId);
     }
 }
