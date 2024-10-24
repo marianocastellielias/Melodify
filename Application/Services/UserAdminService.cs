@@ -71,7 +71,7 @@ namespace Application.Services
                 throw new Exception("User not found");
             }
 
-            user.Role = userRoleUpdateDTO.Role;
+            user.Role = userRoleUpdateDTO.Role;//Aca el Adm cambia el rol del usuario.
             
 
             await _userRepository.UpdateAsync(user);
