@@ -22,14 +22,12 @@ namespace Web.Controllers
         }
 
         [HttpGet]
-        [Authorize(Roles = nameof(UserRole.Artist))]
         public IActionResult GetAlbums()
         {
             var albums = _albumsService.GetAlbums();
             return Ok(albums);
         }
 
-        //[Authorize(Roles = nameof(UserRole.Artist))]
         [HttpPost("create-album")]
         public async Task<IActionResult> AddAlbum([FromBody] AddAlbumDto albumDto)
         {

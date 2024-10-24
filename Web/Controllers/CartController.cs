@@ -15,31 +15,94 @@ namespace Web.Controllers
         {
             _cartService = cartService;
         }
-        [HttpGet("cart/GetCart", Name = "GetMyCart")]
+        [HttpGet("GetCart", Name = "GetMyCart")]
         public IActionResult GetMyCart()
         {
-            int userId = int.Parse(User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier)?.Value ?? "0");
-            if (userId == 0)
+            try
             {
-                return NotFound("No hay un usuario logueado");
+                int userId = int.Parse(User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier)?.Value ?? "0");
+                if (userId == 0)
+                {
+                    return NotFound("No hay un usuario logueado");
+                }
+                return Ok(_cartService.GetCart(userId));
             }
-            return Ok(_cartService.GetCart(userId));
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
-        [HttpPost("cart/albums")]
+        [HttpGet("GetAllMyPurchases")]
+        public IActionResult GetAllMyPurchases()
+        {
+            try
+            {
+                int userId = int.Parse(User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier)?.Value ?? "0");
+                if (userId == 0)
+                {
+                    return NotFound("No hay un usuario logueado");
+                }
+                return Ok(_cartService.GetAllPurchases(userId));
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+        [HttpPost("albums/add")]
         public IActionResult AddAlbumCart([FromBody] AddAlbumToCartRequest request)
         {
-            int userId = int.Parse(User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier)?.Value ?? "0");
-            if (userId == 0)
+            try
             {
-                return NotFound("No hay un usuario logueado");
+                int userId = int.Parse(User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier)?.Value ?? "0");
+                if (userId == 0)
+                {
+                    return NotFound("No hay un usuario logueado");
+                }
+                var cartDto = _cartService.AddAlbumCart(request.AlbumId, request.Quantity, userId);
+                return CreatedAtAction("GetMyCart", cartDto);
             }
-            var cartDto = _cartService.AddAlbumCart(request.AlbumId, userId);
-            return CreatedAtAction("GetMyCart", cartDto);
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
-        [HttpDelete("cart/albums/{idAlbum}")]
-        public IActionResult RemoveAlbumCart(int idAlbum)
+        [HttpDelete("albums/remove/{id}")]
+        public IActionResult RemoveAlbumCart(int id)
         {
-
+            try
+            {
+                int userId = int.Parse(User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier)?.Value ?? "0");
+                if (userId == 0)
+                {
+                    return NotFound("No hay un usuario logueado");
+                }
+                _cartService.RemoveAlbumCart(id, userId);
+                return NoContent();
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
+        [HttpPatch("albums/purchase")]
+        public IActionResult MakePurchase([FromBody] AddPurchaseDto purchase)
+        {
+            try
+            {
+                int userId = int.Parse(User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier)?.Value ?? "0");
+                if (userId == 0)
+                {
+                    return NotFound("No hay un usuario logueado");
+                }
+                _cartService.MakePurchase(userId, purchase.PaymentMethod);
+                return Ok("Compra realizada con exito !");
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
     }
 }

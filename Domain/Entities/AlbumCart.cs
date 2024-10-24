@@ -10,6 +10,7 @@ namespace Domain.Entities
     public class AlbumCart
     {
         public int Id { get; set; }
+        public int Quantity { get; set; }
         public int CartId { get; set; }
         [ForeignKey("CartId")]
         public Cart Cart { get; set; }

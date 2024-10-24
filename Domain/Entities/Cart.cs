@@ -16,6 +16,7 @@ namespace Domain.Entities
         public CartState State { get; set; }
         public decimal Total { get; set; }
         public int UserId { get; set; }
+
         [ForeignKey("UserId")]
         public User User { get; set; }
         public List<AlbumCart> AlbumsCart { get; set; } = [];

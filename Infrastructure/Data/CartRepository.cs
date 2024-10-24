@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Domain.Enums;
 
 namespace Infrastructure.Data
 {
@@ -15,13 +16,21 @@ namespace Infrastructure.Data
         {
         }
 
-        public async Task<Cart?> GetMyCartAsync(int userId)
+        public async Task<Cart?> GetMyCartPendingAsync(int userId)
         {
 			return await _context.Carts
 				.Include(c => c.AlbumsCart)           
 				.ThenInclude(ac => ac.Album)            
-				.Where(c => c.UserId == userId)
+				.Where(c => c.UserId == userId && c.State == CartState.Pending)
 				.SingleOrDefaultAsync();
 		}
+        public async Task<List<Cart>> GetAllCartPurchaseAsync(int userId)
+        {
+            return await _context.Carts
+                .Include(c => c.AlbumsCart)
+                .ThenInclude(ac => ac.Album)
+                .Where(c => c.UserId == userId && c.State == CartState.Purchased)
+                .ToListAsync();
+        }
     }
 }

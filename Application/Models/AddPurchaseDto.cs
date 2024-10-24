@@ -7,13 +7,10 @@ using System.Threading.Tasks;
 
 namespace Application.Models
 {
-    public class AddAlbumToCartRequest
+    public class AddPurchaseDto
     {
         [Required]
-        [Range(1, int.MaxValue)]
-        public int AlbumId { get; set; }
-        [Required]
-        [Range(1, int.MaxValue)]
-        public int Quantity { get; set; }
+        [Range(0, 2)]
+        public int PaymentMethod { get; set; }
     }
 }

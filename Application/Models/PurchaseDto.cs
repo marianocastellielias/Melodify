@@ -1,4 +1,4 @@
-﻿using Application.Models;
+﻿using Application.DTOs;
 using Domain.Entities;
 using Domain.Enums;
 using System;
@@ -7,19 +7,19 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Application.DTOs
+namespace Application.Models
 {
-    public class CartDto
+    public class PurchaseDto
     {
         public int Id { get; set; }
-        //public DateTime PurchaseDate { get; set; }
-        //public PaymentMethod PaymentMethod { get; set; }
-        //public CartState State { get; set; }
+        public DateTime PurchaseDate { get; set; }
+        public PaymentMethod PaymentMethod { get; set; }
+        public CartState State { get; set; }
         public decimal Total { get; set; }
         public List<AlbumCartDto> AlbumsCart { get; set; } = new List<AlbumCartDto>();
-        public static CartDto Create(Cart? cart)
+        public static PurchaseDto Create(Cart? cart)
         {
-            var dto = new CartDto();
+            var dto = new PurchaseDto();
             if (cart != null)
             {
                 dto.Id = cart.Id;

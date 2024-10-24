@@ -9,6 +9,7 @@ namespace Domain.Interfaces
 {
     public interface ICartRepository : IRepositoryBase<Cart>
     {
-        Task<Cart?> GetMyCartAsync(int userId);
+        Task<List<Cart>> GetAllCartPurchaseAsync(int userId);
+        Task<Cart?> GetMyCartPendingAsync(int userId);
     }
 }

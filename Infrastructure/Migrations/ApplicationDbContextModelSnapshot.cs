@@ -73,6 +73,9 @@ namespace Infrastructure.Migrations
                     b.Property<int>("CartId")
                         .HasColumnType("INTEGER");
 
+                    b.Property<int>("Quantity")
+                        .HasColumnType("INTEGER");
+
                     b.HasKey("Id");
 
                     b.HasIndex("AlbumId");
@@ -105,8 +108,7 @@ namespace Infrastructure.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("UserId")
-                        .IsUnique();
+                    b.HasIndex("UserId");
 
                     b.ToTable("Carts");
                 });
@@ -205,8 +207,8 @@ namespace Infrastructure.Migrations
             modelBuilder.Entity("Domain.Entities.Cart", b =>
                 {
                     b.HasOne("Domain.Entities.User", "User")
-                        .WithOne("Cart")
-                        .HasForeignKey("Domain.Entities.Cart", "UserId")
+                        .WithMany("Carts")
+                        .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -238,8 +240,7 @@ namespace Infrastructure.Migrations
                 {
                     b.Navigation("Albums");
 
-                    b.Navigation("Cart")
-                        .IsRequired();
+                    b.Navigation("Carts");
                 });
 #pragma warning restore 612, 618
         }
