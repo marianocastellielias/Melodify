@@ -61,11 +61,12 @@ namespace Application.Services
                 Quantity = quantity,
                 Album = album
             };
+
             var IsInCart = cart.AlbumsCart.Any(c => c.AlbumId == albumCart.AlbumId);
-            if (IsInCart)
-            {
-                throw new Exception($"El album {albumCart.AlbumId} esta en el carrito");
-            }
+            if (IsInCart) throw new Exception($"El album {albumCart.AlbumId} esta en el carrito");
+            var isGreaterThanStock = albumCart.Quantity > albumCart.Album.Stock;
+            if (isGreaterThanStock) throw new Exception($"El album {albumCart.AlbumId} tiene un stock de {albumCart.Album.Stock}");
+
             _albumCartRepository.AddAsync(albumCart).Wait();
             cart.Total = cart.AlbumsCart.Sum(a => a.Album.Price * a.Quantity);
             cart.State = CartState.Pending;
@@ -109,7 +110,11 @@ namespace Application.Services
             cart.PaymentMethod = (PaymentMethod)paymentMethod;
             _cartRepository.UpdateAsync(cart).Wait();
         }
-
+        /// <summary>
+        /// Obtiene todas las compras realizadas por el cliente
+        /// </summary>
+        /// <param name="idUser">Recibe el id del usuario</param>
+        /// <returns></returns>
         public List<PurchaseDto> GetAllPurchases(int idUser)
         {
             var purchases = _cartRepository.GetAllCartPurchaseAsync(idUser).Result;
