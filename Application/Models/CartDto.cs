@@ -12,9 +12,6 @@ namespace Application.DTOs
     public class CartDto
     {
         public int Id { get; set; }
-        //public DateTime PurchaseDate { get; set; }
-        //public PaymentMethod PaymentMethod { get; set; }
-        //public CartState State { get; set; }
         public decimal Total { get; set; }
         public List<AlbumCartDto> AlbumsCart { get; set; } = new List<AlbumCartDto>();
         public static CartDto Create(Cart? cart)

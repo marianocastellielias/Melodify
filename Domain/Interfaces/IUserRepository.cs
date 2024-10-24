@@ -10,11 +10,5 @@ namespace Domain.Interfaces
     public interface IUserRepository : IRepositoryBase<User>
     {
         User? GetUserByEmail(string? email);
-
-
-        Task<List<Album>> GetMyAlbumsAsync(int userId);
-
-        Task<User> GetByIdAsync(int id);
-
     }
 }
