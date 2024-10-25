@@ -2,6 +2,7 @@
 using Application.Interfaces;
 using Application.Models;
 using Domain.Entities;
+using Domain.Enums;
 using Domain.Interfaces;
 using System;
 using System.Collections.Generic;
@@ -24,7 +25,7 @@ namespace Application.Services
         
         public ICollection<AlbumDto> GetAlbums()
         {
-            var albums = _albumRepository.ListAsync().Result;
+            var albums = _albumRepository.GetAlbumsAsync().Result;
             return AlbumDto.CreateList(albums);
         }
         public List<AlbumDto> GetMyAlbums(int userId)
@@ -47,6 +48,7 @@ namespace Application.Services
                 Genre = albumDto.Genre,
                 Cover = albumDto.Cover,
                 Stock = albumDto.Stock,
+                State = AlbumState.Pending,
                 ReleaseDate = DateTime.Now,
                 Price = albumDto.Price,
                 User = user 

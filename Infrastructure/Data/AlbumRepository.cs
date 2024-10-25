@@ -1,4 +1,5 @@
 ﻿using Domain.Entities;
+using Domain.Enums;
 using Domain.Interfaces;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -15,15 +16,18 @@ namespace Infrastructure.Data
         {
         }
 
-        
+        public async Task<List<Album>> GetAlbumsAsync()
+        {
+            return await _context.Albums
+                    .Where(album => album.State == AlbumState.Accepted)
+                    .ToListAsync();
+        }
 
         public async Task<Album> GetByIdAndUserAsync(int id)
         {
             return await _context.Albums
                 .Include((a)=>(a.User))
                 .FirstOrDefaultAsync(a => a.Id == id);
-            
-
         }
 
         public async Task<List<Album>> GetMyAlbumsAsync(int userId)

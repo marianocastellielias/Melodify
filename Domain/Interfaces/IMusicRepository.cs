@@ -9,5 +9,7 @@ namespace Domain.Interfaces
 {
     public interface IMusicRepository : IRepositoryBase<Music>
     {
+        Task<List<Music>> GetAllMusicWithAlbum();
+        Task<Music?> GetMusic(int id);
     }
 }

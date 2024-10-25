@@ -1,6 +1,8 @@
 ﻿using Application.DTOs;
 using Application.Interfaces;
+using Application.Models;
 using Domain.Entities;
+using Domain.Enums;
 using Domain.Interfaces;
 using System;
 using System.Collections.Generic;
@@ -13,10 +15,12 @@ namespace Application.Services
     public class UserAdminService : IUserAdminService
     {
         private readonly IUserRepository _userRepository;
+        private readonly IAlbumRepository _albumRepository;
 
-        public UserAdminService(IUserRepository userRepository)
+        public UserAdminService(IUserRepository userRepository, IAlbumRepository albumRepository)
         {
             _userRepository = userRepository;
+            _albumRepository = albumRepository;
         }
 
 
@@ -78,6 +82,12 @@ namespace Application.Services
             return userRoleUpdateDTO;
         }
 
+        public void UpdateAlbumState(int idAlbum, UpdateAlbumStateDto updateAlbumStateDto)
+        {
+            var album = _albumRepository.GetByIdAsync(idAlbum).Result;
+            album.State = updateAlbumStateDto.State ? AlbumState.Accepted : AlbumState.Rejected;
+            _albumRepository.UpdateAsync(album).Wait();
+        }
 
         public User DeleteUser(int id)
         {

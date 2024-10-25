@@ -21,5 +21,6 @@ namespace Application.Interfaces
 
 
         User DeleteUser(int id);
+        void UpdateAlbumState(int idAlbum, UpdateAlbumStateDto updateAlbumStateDto);
     }
 }

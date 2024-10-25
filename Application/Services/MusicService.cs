@@ -1,5 +1,6 @@
 ﻿using Application.DTOs;
 using Application.Interfaces;
+using Application.Models;
 using Domain.Entities;
 using Domain.Interfaces;
 using System;
@@ -20,6 +21,16 @@ namespace Application.Services
             _musicRepository = musicRepository;
             _albumRepository = albumRepository;
         }
+        public List<MusicDto> GetAllMusic()
+        {
+            var songs = _musicRepository.GetAllMusicWithAlbum().Result;
+            return songs.Select(MusicDto.Create).ToList();
+        }
+        public MusicDto GetMusic(int id)
+        {
+            var song = _musicRepository.GetMusic(id).Result;
+            return MusicDto.Create(song);
+        }
 
         //Agrega una cancion al Album
         public void AddSong(int idAlbum, AddMusicDto addMusicDto)
@@ -30,11 +41,28 @@ namespace Application.Services
             var music = new Music
             {
                 Title = addMusicDto.Title,
-                Duration = addMusicDto.Duration,
+                Duration = new TimeOnly(0, addMusicDto.Minute, addMusicDto.Second),
                 Album = album
             };
             _musicRepository.AddAsync(music).Wait();
 
+        }
+        public void UpdateMusic(int id, UpdateMusicDto updateMusicDto)
+        {
+            var song = _musicRepository.GetByIdAsync(id).Result 
+                ?? throw new NullReferenceException("No se encuentra la música solicitada");
+
+            song.Title = updateMusicDto.Title;
+            song.Duration = new TimeOnly(0, updateMusicDto.Minute, updateMusicDto.Second);
+
+            _musicRepository.UpdateAsync(song).Wait();
+        }
+
+        public void DeleteMusic(int id)
+        {
+            var song = _musicRepository.GetByIdAsync(id).Result
+                    ?? throw new NullReferenceException("No se encuentra la música solicitada");
+            _musicRepository.DeleteAsync(song).Wait();
         }
     }
 }

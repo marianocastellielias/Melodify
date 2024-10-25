@@ -16,6 +16,7 @@ namespace Application.DTOs
         public string Genre { get; set; }
         public string Cover { get; set; }
         public DateTime ReleaseDate { get; set; }
+        public string State { get; set; }
         public decimal Price { get; set; }
         
         public static AlbumDto Create(Album album)
@@ -28,6 +29,18 @@ namespace Application.DTOs
             albumDto.Genre = album.Genre;
             albumDto.Cover = album.Cover;
             albumDto.ReleaseDate = album.ReleaseDate;
+            switch (album.State)
+            {   
+                case AlbumState.Pending:
+                    albumDto.State = "Pending";
+                    break;
+                case AlbumState.Accepted:
+                    albumDto.State = "Accepted";
+                    break;
+                case AlbumState.Rejected:
+                    albumDto.State = "Rejected";
+                    break;
+            }
             albumDto.Price = album.Price;
 
             return albumDto;

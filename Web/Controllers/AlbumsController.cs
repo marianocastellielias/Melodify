@@ -52,9 +52,20 @@ namespace Web.Controllers
         [HttpPut("update-album/{id}")]
         public IActionResult UpdateAlbum([FromBody] UpdateAlbumDto albumDto, int id)
         {
-            int userId = int.Parse(User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier)?.Value ?? "");
-            _albumsService.UpdateAlbumAsync(albumDto, userId, id);
-            return Ok("Álbum actualizado exitosamente");
+            try
+            {
+                int userId = int.Parse(User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier)?.Value ?? "");
+                _albumsService.UpdateAlbumAsync(albumDto, userId, id);
+                return Ok("Álbum actualizado exitosamente");
+            }
+            catch (UnauthorizedAccessException ex)
+            {
+                return Forbid(ex.Message);
+            }
+            catch (Exception ex)
+            {
+                return NotFound(ex.Message);
+            }
         }
 
         [Authorize(Roles = nameof(UserRole.Admin) + "," + nameof(UserRole.Artist))]

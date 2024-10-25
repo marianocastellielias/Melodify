@@ -1,5 +1,6 @@
 ﻿using Application.DTOs;
 using Application.Interfaces;
+using Application.Models;
 using Domain.Enums;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
@@ -49,7 +50,12 @@ namespace Web.Controllers
             var user = _userAdminService.UpdateRole(id, userRoleUpdateDTO);
             return Ok(user);
         }
-
+        [HttpPut("Update-Album-State/{id}")]
+        public IActionResult UpdateStateAlbum(int id, [FromBody] UpdateAlbumStateDto updateAlbumStateDto)
+        {
+            _userAdminService.UpdateAlbumState(id, updateAlbumStateDto);
+            return Ok($"Estado del album actualizado a {(updateAlbumStateDto.State ? "Aceptado" : "Rechazado")}");
+        }
        
         [Authorize(Roles = nameof(UserRole.Admin))]
         [HttpDelete("/Delete-User/{id}")]
