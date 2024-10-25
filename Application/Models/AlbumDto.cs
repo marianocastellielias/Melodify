@@ -18,7 +18,7 @@ namespace Application.DTOs
         public DateTime ReleaseDate { get; set; }
         public string State { get; set; }
         public decimal Price { get; set; }
-        
+        public List<MusicDto> Songs { get; set; } = new List<MusicDto>();
         public static AlbumDto Create(Album album)
         {
             AlbumDto albumDto = new AlbumDto(); 
@@ -29,6 +29,7 @@ namespace Application.DTOs
             albumDto.Genre = album.Genre;
             albumDto.Cover = album.Cover;
             albumDto.ReleaseDate = album.ReleaseDate;
+            albumDto.Songs = album.Songs.Select(MusicDto.Create).ToList();
             switch (album.State)
             {   
                 case AlbumState.Pending:

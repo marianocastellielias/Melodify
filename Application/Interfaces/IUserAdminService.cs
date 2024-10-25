@@ -18,9 +18,8 @@ namespace Application.Interfaces
         AddUserDto AddUser(AddUserDto addUserDto);
 
         UserRoleUpdateDTO UpdateRole(int id, UserRoleUpdateDTO userRoleUpdateDTO);
-
-
         User DeleteUser(int id);
         void UpdateAlbumState(int idAlbum, UpdateAlbumStateDto updateAlbumStateDto);
+        ICollection<AlbumDto> GetAlbums();
     }
 }

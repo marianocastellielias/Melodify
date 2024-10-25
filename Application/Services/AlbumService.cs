@@ -25,7 +25,7 @@ namespace Application.Services
         
         public ICollection<AlbumDto> GetAlbums()
         {
-            var albums = _albumRepository.GetAlbumsAsync().Result;
+            var albums = _albumRepository.GetAlbumsAcceptedAsync().Result;
             return AlbumDto.CreateList(albums);
         }
         public List<AlbumDto> GetMyAlbums(int userId)

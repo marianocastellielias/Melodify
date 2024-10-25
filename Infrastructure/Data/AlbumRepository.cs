@@ -16,17 +16,25 @@ namespace Infrastructure.Data
         {
         }
 
-        public async Task<List<Album>> GetAlbumsAsync()
+        public async Task<List<Album>> GetAlbumsWithMusicAsync()
         {
             return await _context.Albums
+                    .Include(m => m.Songs)
+                    .ToListAsync();
+        }
+
+        public async Task<List<Album>> GetAlbumsAcceptedAsync()
+        {
+            return await _context.Albums
+                    .Include(m => m.Songs)
                     .Where(album => album.State == AlbumState.Accepted)
                     .ToListAsync();
         }
 
-        public async Task<Album> GetByIdAndUserAsync(int id)
+        public async Task<Album?> GetByIdAndUserAsync(int id)
         {
             return await _context.Albums
-                .Include((a)=>(a.User))
+                .Include((a) => (a.User))
                 .FirstOrDefaultAsync(a => a.Id == id);
         }
 
@@ -36,8 +44,5 @@ namespace Infrastructure.Data
                 .Where(album => album.User.Id == userId)
                 .ToListAsync();
         }
-
-
-
     }
 }

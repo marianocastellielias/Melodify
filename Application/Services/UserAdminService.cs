@@ -31,6 +31,12 @@ namespace Application.Services
             return UserDto.CreateList(users);
         }
 
+        public ICollection<AlbumDto> GetAlbums()
+        {
+            var albums = _albumRepository.GetAlbumsWithMusicAsync().Result;
+            return AlbumDto.CreateList(albums);
+        }
+
         public UpdateUserDto UsersUpdate(int id, UpdateUserDto updateUserDto)
         {
             var user = _userRepository.GetByIdAsync(id).Result;
@@ -76,7 +82,7 @@ namespace Application.Services
             }
 
             user.Role = userRoleUpdateDTO.Role;//Aca el Adm cambia el rol del usuario.
-            
+
 
             _userRepository.UpdateAsync(user);
             return userRoleUpdateDTO;
