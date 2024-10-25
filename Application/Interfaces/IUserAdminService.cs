@@ -19,7 +19,6 @@ namespace Application.Interfaces
 
         UserRoleUpdateDTO UpdateRole(int id, UserRoleUpdateDTO userRoleUpdateDTO);
 
-        UpdateUserDto UserUpdate(int id, UpdateUserDto updateUser);
 
         User DeleteUser(int id);
     }
