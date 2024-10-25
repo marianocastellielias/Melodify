@@ -27,14 +27,14 @@ namespace Application.Services
             var albums = _albumRepository.ListAsync().Result;
             return AlbumDto.CreateList(albums);
         }
-        public async Task<List<AlbumDto>> GetMyAlbums(int userId)
+        public List<AlbumDto> GetMyAlbums(int userId)
         {
-            var albums = await _albumRepository.GetMyAlbumsAsync(userId);
+            var albums = _albumRepository.GetMyAlbumsAsync(userId).Result;
             return AlbumDto.CreateList(albums);
         }
-        public async Task AddAlbumAsync(AddAlbumDto albumDto, int userId)
+        public void AddAlbumAsync(AddAlbumDto albumDto, int userId)
         {
-            var user = await _userRepository.GetByIdAsync(userId);
+            var user = _userRepository.GetByIdAsync(userId).Result;
             if (user == null)
             {
                 throw new Exception("User not found");
@@ -52,12 +52,12 @@ namespace Application.Services
                 User = user 
             };
 
-            await _albumRepository.AddAsync(album);
+            _albumRepository.AddAsync(album).Wait();
         }
 
-        public async Task UpdateAlbumAsync(UpdateAlbumDto albumDto, int userId, int id)
+        public void UpdateAlbumAsync(UpdateAlbumDto albumDto, int userId, int id)
         {
-            var album = await _albumRepository.GetByIdAndUserAsync(id);
+            var album = _albumRepository.GetByIdAndUserAsync(id).Result;
 
             if (album.User.Id != userId)
             {
@@ -78,17 +78,17 @@ namespace Application.Services
             album.Price = albumDto.Price;
 
             
-            await _albumRepository.UpdateAsync(album);
+            _albumRepository.UpdateAsync(album).Wait();
         }
 
-        public async Task<Album> DeleteAlbumAsync(int id)
+        public Album DeleteAlbumAsync(int id)
         {
-            var album = await _albumRepository.GetByIdAsync(id);
+            var album = _albumRepository.GetByIdAsync(id).Result;
             if (album == null)
             {
                 throw new Exception("Album no encontrado");
             }
-            await _albumRepository.DeleteAsync(album);
+            _albumRepository.DeleteAsync(album).Wait();
 
             return album;
         }

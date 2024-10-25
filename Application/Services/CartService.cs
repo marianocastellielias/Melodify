@@ -44,7 +44,7 @@ namespace Application.Services
         public CartDto AddAlbumCart(int idAlbum, int quantity, int idUser)
         {
             var album = _albumRepository.GetByIdAsync(idAlbum).Result
-                ?? throw new Exception("El album ingresado no existe");
+                ?? throw new NullReferenceException("El album ingresado no existe");
             var cart = _cartRepository.GetMyCartPendingAsync(idUser).Result;
             if (cart == null)
             {
@@ -82,14 +82,14 @@ namespace Application.Services
         public void RemoveAlbumCart(int idAlbumCart, int idUser)
         {
             var cart = _cartRepository.GetMyCartPendingAsync(idUser).Result
-                ?? throw new Exception("El carrito no esta como pendiente o no existe");
+                ?? throw new NullReferenceException("El carrito no esta como pendiente o no existe");
             var IsInCart = cart.AlbumsCart.Any(c => c.Id == idAlbumCart);
             if (!IsInCart)
             {
                 throw new Exception("El album no esta en en carrito ");
             }
             var albumCart = _albumCartRepository.GetByIdAsync(idAlbumCart).Result
-                ?? throw new Exception("No existe ese album en un carrito");
+                ?? throw new NullReferenceException("No existe ese album en un carrito");
             _albumCartRepository.DeleteAsync(albumCart).Wait();
             cart.Total = cart.AlbumsCart.Sum(a => a.Album.Price * a.Quantity);
             cart.State = CartState.Pending;
@@ -104,7 +104,7 @@ namespace Application.Services
         public void MakePurchase(int idUser, int paymentMethod)
         {
             var cart = _cartRepository.GetMyCartPendingAsync(idUser).Result
-                ?? throw new Exception("El carrito no esta como pendiente o no existe");
+                ?? throw new NullReferenceException("El carrito no esta como pendiente o no existe");
             cart.State = CartState.Purchased;
             cart.PurchaseDate = DateTime.Now;
             cart.PaymentMethod = (PaymentMethod)paymentMethod;

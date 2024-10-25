@@ -15,8 +15,6 @@ namespace Application.DTOs
         [StringLength(20, ErrorMessage = "Supera lantidad maxima de caracteres. ")]
         public string Name { get; set; }
         [Required]
-        public string Role { get; set; }
-        [Required]
         [EmailAddress]
         public string Email { get; set; }
         [StringLength(50, ErrorMessage = "La direccion excede la cantidad maxima de caracteres.")]

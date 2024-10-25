@@ -52,11 +52,11 @@ namespace Web.Controllers
 
         [Authorize(Roles = $"{nameof(UserRole.Artist)},{nameof(UserRole.Client)}") ]
         [HttpPut("Update-User-Data")]
-        public async Task<IActionResult> UpdateUserData( UpdateUserDto updateUser)
+        public IActionResult UpdateUserData( UpdateUserDto updateUser)
         {
             var userId = int.Parse(User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier)?.Value ?? "");
 
-            await _userAdminService.UserUpdate(userId, updateUser);
+            _userAdminService.UserUpdate(userId, updateUser);
 
             return Ok();
                

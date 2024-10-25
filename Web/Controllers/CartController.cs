@@ -27,6 +27,10 @@ namespace Web.Controllers
                 }
                 return Ok(_cartService.GetCart(userId));
             }
+            catch (NullReferenceException ex)
+            {
+                return NotFound(ex.Message);
+            }
             catch (Exception ex)
             {
                 return BadRequest(ex.Message);
@@ -43,6 +47,10 @@ namespace Web.Controllers
                     return NotFound("No hay un usuario logueado");
                 }
                 return Ok(_cartService.GetAllPurchases(userId));
+            }
+            catch (NullReferenceException ex)
+            {
+                return NotFound(ex.Message);
             }
             catch (Exception ex)
             {
@@ -62,6 +70,10 @@ namespace Web.Controllers
                 var cartDto = _cartService.AddAlbumCart(request.AlbumId, request.Quantity, userId);
                 return CreatedAtAction("GetMyCart", cartDto);
             }
+            catch(NullReferenceException ex)
+            {
+                return NotFound(ex.Message);
+            }
             catch (Exception ex)
             {
                 return BadRequest(ex.Message);
@@ -80,6 +92,10 @@ namespace Web.Controllers
                 _cartService.RemoveAlbumCart(id, userId);
                 return NoContent();
             }
+            catch (NullReferenceException ex)
+            {
+                return NotFound(ex.Message);
+            }
             catch (Exception ex)
             {
                 return BadRequest(ex.Message);
@@ -97,6 +113,10 @@ namespace Web.Controllers
                 }
                 _cartService.MakePurchase(userId, purchase.PaymentMethod);
                 return Ok("Compra realizada con exito !");
+            }
+            catch (NullReferenceException ex)
+            {
+                return NotFound(ex.Message);
             }
             catch (Exception ex)
             {
