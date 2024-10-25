@@ -78,23 +78,6 @@ namespace Application.Services
             return userRoleUpdateDTO;
         }
 
-        public UpdateUserDto UserUpdate(int id,UpdateUserDto updateUser)
-        {
-            var user = _userRepository.GetByIdAsync(id).Result;
-            if (user == null)
-            {
-                throw new Exception("User not found");
-            }
-
-            user.Name = updateUser.Name;
-            user.Email = updateUser.Email;
-            user.Address = updateUser.Address;
-            user.Phone = updateUser.Phone;
-
-            _userRepository.UpdateAsync(user).Wait();
-
-            return updateUser;
-        }
 
         public User DeleteUser(int id)
         {
