@@ -71,7 +71,7 @@ namespace Web.Controllers
         }
 
         [Authorize(Roles = nameof(UserRole.Admin) + "," + nameof(UserRole.Artist))]
-        [HttpDelete("/Delete-Album/{id}")]
+        [HttpDelete("/Delete/{id}")]
         public IActionResult DeleteUser([FromRoute] int id)
         {
             var user = _albumsService.DeleteAlbumAsync(id);
