@@ -13,12 +13,12 @@ namespace Application.Interfaces
     {
         ICollection<AlbumDto> GetAlbums();
 
-        Task AddAlbumAsync(AddAlbumDto albumDto, int userId);
+        void AddAlbumAsync(AddAlbumDto albumDto, int userId);
 
-        Task<List<AlbumDto>> GetMyAlbums(int userId);
+        List<AlbumDto> GetMyAlbums(int userId);
 
-        Task UpdateAlbumAsync(UpdateAlbumDto albumDto, int userId, int id);
+        void UpdateAlbumAsync(UpdateAlbumDto albumDto, int userId, int id);
 
-        Task<Album> DeleteAlbumAsync(int id);
+        Album DeleteAlbumAsync(int id);
     }
 }

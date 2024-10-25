@@ -20,16 +20,16 @@ namespace Application.Services
         }
 
 
-        public async Task<ICollection<UserDto>> GetUsers()
+        public ICollection<UserDto> GetUsers()
         {
             // Usa await para esperar el resultado
-            var users = await _userRepository.ListAsync();
+            var users = _userRepository.ListAsync().Result;
             return UserDto.CreateList(users);
         }
 
-        public async Task<UpdateUserDto> UsersUpdate(int id, UpdateUserDto updateUserDto)
+        public UpdateUserDto UsersUpdate(int id, UpdateUserDto updateUserDto)
         {
-            var user = await _userRepository.GetByIdAsync(id);
+            var user = _userRepository.GetByIdAsync(id).Result;
             if (user == null)
             {
                 throw new Exception("User not found");
@@ -40,13 +40,13 @@ namespace Application.Services
             user.Address = updateUserDto.Address;
             user.Phone = updateUserDto.Phone;
 
-            await _userRepository.UpdateAsync(user);
+            _userRepository.UpdateAsync(user).Wait();
 
             return updateUserDto;
 
         }
 
-        public async Task<AddUserDto> AddUser(AddUserDto addUserDto)
+        public AddUserDto AddUser(AddUserDto addUserDto)
         {
             var user = new User
             {
@@ -58,14 +58,14 @@ namespace Application.Services
                 Password = addUserDto.Password,
             };
 
-            await _userRepository.AddAsync(user);
+            _userRepository.AddAsync(user).Wait();
             return addUserDto;
 
         }
 
-        public async Task<UserRoleUpdateDTO> UpdateRole(int id, UserRoleUpdateDTO userRoleUpdateDTO)
+        public UserRoleUpdateDTO UpdateRole(int id, UserRoleUpdateDTO userRoleUpdateDTO)
         {
-            var user = await _userRepository.GetByIdAsync(id);
+            var user = _userRepository.GetByIdAsync(id).Result;
             if (user == null)
             {
                 throw new Exception("User not found");
@@ -74,13 +74,13 @@ namespace Application.Services
             user.Role = userRoleUpdateDTO.Role;//Aca el Adm cambia el rol del usuario.
             
 
-            await _userRepository.UpdateAsync(user);
+            _userRepository.UpdateAsync(user);
             return userRoleUpdateDTO;
         }
 
-        public async Task<UpdateUserDto> UserUpdate(int id,UpdateUserDto updateUser)
+        public UpdateUserDto UserUpdate(int id,UpdateUserDto updateUser)
         {
-            var user = await _userRepository.GetByIdAsync(id);
+            var user = _userRepository.GetByIdAsync(id).Result;
             if (user == null)
             {
                 throw new Exception("User not found");
@@ -91,19 +91,19 @@ namespace Application.Services
             user.Address = updateUser.Address;
             user.Phone = updateUser.Phone;
 
-            await _userRepository.UpdateAsync(user);
+            _userRepository.UpdateAsync(user).Wait();
 
             return updateUser;
         }
 
-        public async Task<User> DeleteUser(int id)
+        public User DeleteUser(int id)
         {
-            var user = await _userRepository.GetByIdAsync(id);
+            var user = _userRepository.GetByIdAsync(id).Result;
             if (user == null)
             {
                 throw new Exception("User not found");
             }
-            await _userRepository.DeleteAsync(user);
+            _userRepository.DeleteAsync(user).Wait();
 
             return user;
         }

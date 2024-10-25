@@ -11,16 +11,16 @@ namespace Application.Interfaces
 {
     public interface IUserAdminService
     {
-        Task<ICollection<UserDto>> GetUsers();
+        ICollection<UserDto> GetUsers();
 
-        Task<UpdateUserDto> UsersUpdate(int id, UpdateUserDto updateUserDto);
+        UpdateUserDto UsersUpdate(int id, UpdateUserDto updateUserDto);
 
-        Task<AddUserDto> AddUser(AddUserDto addUserDto);
+        AddUserDto AddUser(AddUserDto addUserDto);
 
-        Task<UserRoleUpdateDTO> UpdateRole(int id, UserRoleUpdateDTO userRoleUpdateDTO);
+        UserRoleUpdateDTO UpdateRole(int id, UserRoleUpdateDTO userRoleUpdateDTO);
 
-        Task<UpdateUserDto> UserUpdate(int id, UpdateUserDto updateUser);
+        UpdateUserDto UserUpdate(int id, UpdateUserDto updateUser);
 
-        Task<User> DeleteUser(int id);
+        User DeleteUser(int id);
     }
 }

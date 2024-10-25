@@ -31,42 +31,29 @@ namespace Web.Controllers
 
         [Authorize(Roles = nameof(UserRole.Artist))]
         [HttpPost("create-album")]
-        public async Task<IActionResult> AddAlbum([FromBody] AddAlbumDto albumDto)
+        public IActionResult AddAlbum([FromBody] AddAlbumDto albumDto)
         {
-
-
             int userId = int.Parse(User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier)?.Value ?? "");
-
-
-            await _albumsService.AddAlbumAsync(albumDto, userId);
-
+            _albumsService.AddAlbumAsync(albumDto, userId);
             return Ok("Álbum creado exitosamente");
         }
 
         [Authorize(Roles = nameof(UserRole.Artist) + "," + nameof(UserRole.Client))]
         [HttpGet("my-albums")]
-        public async Task<IActionResult> GetMyAlbums()
+        public IActionResult GetMyAlbums()
         {
-
-
             int userId = int.Parse(User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier)?.Value ?? "");
-
-
-
-
-            var albumsDto = await _albumsService.GetMyAlbums(userId);
+            var albumsDto = _albumsService.GetMyAlbums(userId);
 
             return Ok(albumsDto);
         }
 
         [Authorize(Roles = nameof(UserRole.Artist))]
         [HttpPut("update-album/{id}")]
-        public async Task<IActionResult> UpdateAlbum([FromBody] UpdateAlbumDto albumDto, int id)
+        public IActionResult UpdateAlbum([FromBody] UpdateAlbumDto albumDto, int id)
         {
             int userId = int.Parse(User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier)?.Value ?? "");
-
-            await _albumsService.UpdateAlbumAsync(albumDto, userId, id);
-
+            _albumsService.UpdateAlbumAsync(albumDto, userId, id);
             return Ok("Álbum actualizado exitosamente");
         }
 
