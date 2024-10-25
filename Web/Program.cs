@@ -89,6 +89,7 @@ builder.Services.AddScoped<IMusicService, MusicService>();
 builder.Services.AddScoped<IAlbumsService, AlbumService>();
 builder.Services.AddScoped<IUserAdminService, UserAdminService>();
 builder.Services.AddScoped<ICartService, CartService>();
+builder.Services.AddScoped<IUserService, UserService>();
 #endregion
 
 var app = builder.Build();

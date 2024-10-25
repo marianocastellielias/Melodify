@@ -50,17 +50,7 @@ namespace Web.Controllers
             return Ok(user);
         }
 
-        [Authorize(Roles = $"{nameof(UserRole.Artist)},{nameof(UserRole.Client)}") ]
-        [HttpPut("Update-User-Data")]
-        public IActionResult UpdateUserData( UpdateUserDto updateUser)
-        {
-            var userId = int.Parse(User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier)?.Value ?? "");
-
-            _userAdminService.UserUpdate(userId, updateUser);
-
-            return Ok();
-               
-        }
+       
         [Authorize(Roles = nameof(UserRole.Admin))]
         [HttpDelete("/Delete-User/{id}")]
         public IActionResult DeleteUser([FromRoute]int id)
