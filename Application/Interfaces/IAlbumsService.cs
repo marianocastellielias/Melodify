@@ -19,6 +19,6 @@ namespace Application.Interfaces
 
         void UpdateAlbumAsync(UpdateAlbumDto albumDto, int userId, int id);
 
-        Album DeleteAlbumAsync(int id);
+        Album DeleteAlbumAsync(int id, int userId);
     }
 }

@@ -17,34 +17,29 @@ namespace Application.Services
         private readonly ICartRepository _cartRepository;
         private readonly IAlbumRepository _albumRepository;
         private readonly IAlbumCartRepository _albumCartRepository;
+        
+
         public CartService(ICartRepository cartRepository, IAlbumRepository albumRepository, IAlbumCartRepository albumCartRepository)
         {
             _cartRepository = cartRepository;
             _albumRepository = albumRepository;
             _albumCartRepository = albumCartRepository;
         }
-        /// <summary>
-        /// Muestra todos los albums que tiene agregado al carrito
-        /// </summary>
-        /// <param name="idUser">Recibe el id del usuario logueado</param>
-        /// <returns>Retorna el dto del carrito</returns>
+        
         public CartDto GetCart(int idUser)
         {
             var cart = _cartRepository.GetMyCartPendingAsync(idUser).Result;
             return CartDto.Create(cart);
         }
-        /// <summary>
-        /// Agrega un album al carrito. Si no hay un carrito como pendiente, agrega uno nuevo y si hay agrega al carrito en estado pendiente.
-        /// </summary>
-        /// <param name="idAlbum">Recibe el id del album que se desea agregar</param>
-        /// <param name="idUser">Recibe el id del usuario logueado</param>
-        /// <param name="quantity">Cantidad de albumes que se agregan del mismo tipo</param>
-        /// <returns>Retorna el dto del carrito</returns>
-        /// <exception cref="Exception"></exception>
+       
         public CartDto AddAlbumCart(int idAlbum, int quantity, int idUser)
         {
             var album = _albumRepository.GetByIdAsync(idAlbum).Result
                 ?? throw new NullReferenceException("El album ingresado no existe");
+            if (album.State == AlbumState.Rejected || album.State == AlbumState.Pending )
+            {
+                throw new Exception("Album no disponible.");
+            }
             var cart = _cartRepository.GetMyCartPendingAsync(idUser).Result;
             if (cart == null)
             {
@@ -73,12 +68,7 @@ namespace Application.Services
             _cartRepository.UpdateAsync(cart).Wait();
             return CartDto.Create(cart);
         }
-        /// <summary>
-        /// Elimina el album del carrito. Esta vez solo busca por el id propio del AlbumCart que recibe desde el front
-        /// </summary>
-        /// <param name="idAlbumCart">Recibe el id del AlbumCart (no del album)</param>
-        /// <param name="idUser"></param>
-        /// <exception cref="Exception"></exception>
+        
         public void RemoveAlbumCart(int idAlbumCart, int idUser)
         {
             var cart = _cartRepository.GetMyCartPendingAsync(idUser).Result
@@ -95,26 +85,18 @@ namespace Application.Services
             cart.State = CartState.Pending;
             _cartRepository.UpdateAsync(cart).Wait();
         }
-        /// <summary>
-        /// Realiza la compra con los items agregados (cambia el estado del carrito a Purchased)
-        /// </summary>
-        /// <param name="idUser">Recibe el id del usuario</param>
-        /// <param name="paymentMethod">Recibe el método de pago</param>
-        /// <exception cref="Exception"></exception>
+       
         public void MakePurchase(int idUser, int paymentMethod)
         {
             var cart = _cartRepository.GetMyCartPendingAsync(idUser).Result
                 ?? throw new NullReferenceException("El carrito no esta como pendiente o no existe");
+
             cart.State = CartState.Purchased;
             cart.PurchaseDate = DateTime.Now;
             cart.PaymentMethod = (PaymentMethod)paymentMethod;
             _cartRepository.UpdateAsync(cart).Wait();
         }
-        /// <summary>
-        /// Obtiene todas las compras realizadas por el cliente
-        /// </summary>
-        /// <param name="idUser">Recibe el id del usuario</param>
-        /// <returns></returns>
+        
         public List<PurchaseDto> GetAllPurchases(int idUser)
         {
             var purchases = _cartRepository.GetAllCartPurchaseAsync(idUser).Result;

@@ -26,7 +26,6 @@ namespace Application.Services
 
         public ICollection<UserDto> GetUsers()
         {
-            // Usa await para esperar el resultado
             var users = _userRepository.ListAsync().Result;
             return UserDto.CreateList(users);
         }
@@ -61,7 +60,7 @@ namespace Application.Services
             var user = new User
             {
                 Name = addUserDto.Name,
-                Role = "Client",//asigna el rol por defecto
+                Role = "Client",
                 Email = addUserDto.Email,
                 Address = addUserDto.Address,
                 Phone = addUserDto.Phone,
@@ -81,11 +80,13 @@ namespace Application.Services
                 throw new Exception("User not found");
             }
 
-            user.Role = userRoleUpdateDTO.Role;//Aca el Adm cambia el rol del usuario.
-
-
-            _userRepository.UpdateAsync(user);
-            return userRoleUpdateDTO;
+            if (userRoleUpdateDTO.Role == "Artist" || userRoleUpdateDTO.Role == "Client")
+            {
+               user.Role = userRoleUpdateDTO.Role;
+               _userRepository.UpdateAsync(user);
+                 return userRoleUpdateDTO;
+            }
+            throw new Exception("Rol invalido. Debe seleccionar 'Artist' o 'Client'.");
         }
 
         public void UpdateAlbumState(int idAlbum, UpdateAlbumStateDto updateAlbumStateDto)

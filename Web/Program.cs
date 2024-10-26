@@ -25,7 +25,7 @@ builder.Services.AddControllers().AddJsonOptions(options =>
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(setupAction =>
 {
-    setupAction.AddSecurityDefinition("MelodifyApi", new OpenApiSecurityScheme() //Esto va a permitir usar swagger con el token.
+    setupAction.AddSecurityDefinition("MelodifyApi", new OpenApiSecurityScheme() 
     {
         Type = SecuritySchemeType.Http,
         Scheme = "Bearer",
@@ -40,18 +40,15 @@ builder.Services.AddSwaggerGen(setupAction =>
                 Reference = new OpenApiReference
                 {
                     Type = ReferenceType.SecurityScheme,
-                    Id = "MelodifyApi" } //Tiene que coincidir con el id seteado arriba en la definición
+                    Id = "MelodifyApi" } 
                 }, new List<string>() }
     });
 
-    //var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
-    //var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
-    //setupAction.IncludeXmlComments(xmlPath);
-
+ 
 });
 
-builder.Services.AddAuthentication("Bearer") //"Bearer" es el tipo de auntenticación que tenemos que elegir después en PostMan para pasarle el token
-    .AddJwtBearer(options => //Acá definimos la configuración de la autenticación. le decimos qué cosas queremos comprobar. La fecha de expiración se valida por defecto.
+builder.Services.AddAuthentication("Bearer") 
+    .AddJwtBearer(options => 
     {
         options.TokenValidationParameters = new()
         {

@@ -15,11 +15,12 @@ namespace Application.Models
         public string Artist { get; set; }
 
         public string Genre { get; set; }
-
+        [Url]
         public string Cover { get; set; }
+        [Range(0, int.MaxValue)]
+        public int Stock { get; set; }
 
-        public int Stock { get; set; }  
-
+        [Range(1, int.MaxValue)]
         public decimal Price { get; set; }
     }
 }

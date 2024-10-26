@@ -23,7 +23,7 @@ namespace Application.DTOs
 
             userDto.Id = user.Id;
             userDto.Name = user.Name;
-            userDto.Role = user.Role; // Suponiendo que UserRole es un enum
+            userDto.Role = user.Role; 
             userDto.Email = user.Email;
             userDto.Address = user.Address;
             userDto.Phone = user.Phone;
@@ -31,13 +31,13 @@ namespace Application.DTOs
             return userDto;
         }
 
-        // Método para crear una lista de UserDto a partir de una colección de User
+        
         public static List<UserDto> CreateList(IEnumerable<User> users)
         {
             var listDto = new List<UserDto>();
             foreach (var user in users)
             {
-                listDto.Add(Create(user)); // Llama al método Create para cada usuario
+                listDto.Add(Create(user)); 
             }
             return listDto;
         }

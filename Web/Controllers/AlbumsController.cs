@@ -72,7 +72,8 @@ namespace Web.Controllers
         [HttpDelete("/Delete/{id}")]
         public IActionResult DeleteUser([FromRoute] int id)
         {
-            var user = _albumsService.DeleteAlbumAsync(id);
+            int userId = int.Parse(User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier)?.Value ?? "");
+            var user = _albumsService.DeleteAlbumAsync(id, userId);
             return Ok("Album eliminado");
         }
 

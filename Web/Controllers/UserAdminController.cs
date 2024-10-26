@@ -11,7 +11,7 @@ namespace Web.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    [Authorize(Roles = nameof(UserRole.Admin))]
+    
 
     public class UserAdminController : ControllerBase
     {
@@ -21,18 +21,21 @@ namespace Web.Controllers
         {
             _userAdminService = userAdminService;
         }
+        [Authorize(Roles = nameof(UserRole.Admin))]
         [HttpGet("Users")]
         public IActionResult GetUsers()
         {
             var users = _userAdminService.GetUsers();
             return Ok(users);
         }
+        [Authorize(Roles = nameof(UserRole.Admin))]
         [HttpGet("Albums")]
         public IActionResult GetAlbums()
         {
             var albums = _userAdminService.GetAlbums();
             return Ok(albums);
         }
+        [Authorize(Roles = nameof(UserRole.Admin))]
         [HttpPut("Update-Users/{id}")]
         public IActionResult PutUser([FromRoute] int id, [FromBody] UpdateUserDto updateUserDto)
         {
@@ -47,6 +50,7 @@ namespace Web.Controllers
             return Ok(user);
         }
 
+        [Authorize(Roles = nameof(UserRole.Admin))]
         [HttpPut("Update-Role/{id}")]
         public IActionResult UpdateRole([FromRoute]int id, [FromBody]UserRoleUpdateDTO userRoleUpdateDTO)
         {
@@ -54,13 +58,16 @@ namespace Web.Controllers
             var user = _userAdminService.UpdateRole(id, userRoleUpdateDTO);
             return Ok(user);
         }
+
+        [Authorize(Roles = nameof(UserRole.Admin))]
         [HttpPut("Update-Album-State/{id}")]
         public IActionResult UpdateStateAlbum(int id, [FromBody] UpdateAlbumStateDto updateAlbumStateDto)
         {
             _userAdminService.UpdateAlbumState(id, updateAlbumStateDto);
             return Ok($"Estado del album actualizado a {(updateAlbumStateDto.State ? "Aceptado" : "Rechazado")}");
         }
-       
+
+        [Authorize(Roles = nameof(UserRole.Admin))]
         [HttpDelete("/Delete-User/{id}")]
         public IActionResult DeleteUser([FromRoute]int id)
         {

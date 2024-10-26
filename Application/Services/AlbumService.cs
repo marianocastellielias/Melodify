@@ -59,7 +59,8 @@ namespace Application.Services
 
         public void UpdateAlbumAsync(UpdateAlbumDto albumDto, int userId, int id)
         {
-            var album = _albumRepository.GetByIdAndUserAsync(id).Result;
+            var album = _albumRepository.GetByIdAndUserAsync(id).Result
+                ?? throw new Exception("Album inexistente.");
 
             if (album.User.Id != userId)
             {
@@ -83,13 +84,16 @@ namespace Application.Services
             _albumRepository.UpdateAsync(album).Wait();
         }
 
-        public Album DeleteAlbumAsync(int id)
+        public Album DeleteAlbumAsync(int id, int userId)
         {
-            var album = _albumRepository.GetByIdAsync(id).Result;
-            if (album == null)
+            var album = _albumRepository.GetByIdAndUserAsync(id).Result
+                 ?? throw new Exception("Album inexistente");
+
+            if (album.User.Id != userId)
             {
-                throw new Exception("Album no encontrado");
+               throw new UnauthorizedAccessException("No tienes permiso para eliminar este álbum.");
             }
+            
             _albumRepository.DeleteAsync(album).Wait();
 
             return album;

@@ -16,11 +16,14 @@ namespace Application.DTOs
         [Required]
         public string Genre { get; set; }
         [Required]
+        [Url]
         public string Cover { get; set; }
         [Required]
+        [Range(1, int.MaxValue)]
         public int Stock { get; set; }
 
         [Required]
+        [Range(1, int.MaxValue)]
         public decimal Price { get; set; }
     }
 }

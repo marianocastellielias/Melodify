@@ -28,11 +28,12 @@ namespace Application.Services
         }
         public MusicDto GetMusic(int id)
         {
-            var song = _musicRepository.GetMusic(id).Result;
+            var song = _musicRepository.GetMusic(id).Result
+            ?? throw new NullReferenceException("Id inexistente.");
+
             return MusicDto.Create(song);
         }
 
-        //Agrega una cancion al Album
         public void AddSong(int idAlbum, AddMusicDto addMusicDto)
         {
             var album = _albumRepository.GetByIdAsync(idAlbum).Result

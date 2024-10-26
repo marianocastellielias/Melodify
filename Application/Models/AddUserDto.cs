@@ -26,16 +26,5 @@ namespace Application.DTOs
         [Required]
         public string Password { get; set; }
     }
-    //public static AddUserDto CreateUser(User user)
-    //{
-     //   AddUserDto addUserDto = new AddUserDto();
-       // {
-         //   addUserDto.Name = user.Name;
-          //  addUserDto.Role = user.Role; // Suponiendo que UserRole es un enum
-           // addUserDto.Email = user.Email;
-            //addUserDto.Address = user.Address;
-            //addUserDto.Phone = user.Phone;
-        //};
-        //return addUserDto;
-    //}
+  
 }

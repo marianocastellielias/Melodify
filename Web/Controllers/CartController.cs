@@ -1,5 +1,7 @@
 ﻿using Application.Interfaces;
 using Application.Models;
+using Domain.Enums;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
@@ -15,6 +17,8 @@ namespace Web.Controllers
         {
             _cartService = cartService;
         }
+
+        [Authorize(Roles = nameof(UserRole.Client))]
         [HttpGet("GetCart", Name = "GetMyCart")]
         public IActionResult GetMyCart()
         {
@@ -36,6 +40,8 @@ namespace Web.Controllers
                 return BadRequest(ex.Message);
             }
         }
+
+        [Authorize(Roles = nameof(UserRole.Client))]
         [HttpGet("GetAllMyPurchases")]
         public IActionResult GetAllMyPurchases()
         {
@@ -57,6 +63,8 @@ namespace Web.Controllers
                 return BadRequest(ex.Message);
             }
         }
+
+        [Authorize(Roles = nameof(UserRole.Client))]
         [HttpPost("albums/add")]
         public IActionResult AddAlbumCart([FromBody] AddAlbumToCartRequest request)
         {
@@ -79,6 +87,8 @@ namespace Web.Controllers
                 return BadRequest(ex.Message);
             }
         }
+
+        [Authorize(Roles = nameof(UserRole.Client))]
         [HttpDelete("albums/remove/{id}")]
         public IActionResult RemoveAlbumCart(int id)
         {
@@ -101,6 +111,8 @@ namespace Web.Controllers
                 return BadRequest(ex.Message);
             }
         }
+
+        [Authorize(Roles = nameof(UserRole.Client))]
         [HttpPatch("albums/purchase")]
         public IActionResult MakePurchase([FromBody] AddPurchaseDto purchase)
         {

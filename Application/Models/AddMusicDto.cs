@@ -11,7 +11,7 @@ namespace Application.DTOs
     public class AddMusicDto
     {
         [Required]
-        //[MaxLength(80, ErrorMessage = "Superada la cantidad maxima de caracteres")]
+        [MaxLength(80, ErrorMessage = "Superada la cantidad maxima de caracteres")]
         public string Title { get; set; }
         [Required]
         [Range(0, 59)]
