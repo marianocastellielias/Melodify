@@ -48,10 +48,15 @@ namespace Application.DTOs
         }
         public static List<AlbumDto> CreateList(IEnumerable<Album> albums)
         {
+            
             var listDto = new List<AlbumDto>();
             foreach (var album in albums)
             {
-                listDto.Add(Create(album));
+                if (album.IsActive == true)
+                {
+                    listDto.Add(Create(album));
+                }
+                
             }
             return listDto;
         }

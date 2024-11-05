@@ -51,6 +51,7 @@ namespace Application.Services
                 State = AlbumState.Pending,
                 ReleaseDate = DateTime.Now,
                 Price = albumDto.Price,
+                IsActive = true,
                 User = user 
             };
 
@@ -93,8 +94,10 @@ namespace Application.Services
             {
                throw new UnauthorizedAccessException("No tienes permiso para eliminar este álbum.");
             }
+
+            album.IsActive = false;
             
-            _albumRepository.DeleteAsync(album).Wait();
+            _albumRepository.UpdateAsync(album).Wait();
 
             return album;
         }

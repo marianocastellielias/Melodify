@@ -38,7 +38,7 @@ namespace Web.Controllers
             return Ok("Álbum creado exitosamente");
         }
 
-        [Authorize(Roles = nameof(UserRole.Artist) + "," + nameof(UserRole.Client))]
+        [Authorize(Roles = nameof(UserRole.Artist))]
         [HttpGet("my-albums")]
         public IActionResult GetMyAlbums()
         {
@@ -70,7 +70,7 @@ namespace Web.Controllers
 
         [Authorize(Roles = nameof(UserRole.Admin) + "," + nameof(UserRole.Artist))]
         [HttpDelete("/Delete/{id}")]
-        public IActionResult DeleteUser([FromRoute] int id)
+        public IActionResult DeleteAlbum([FromRoute] int id)
         {
             int userId = int.Parse(User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier)?.Value ?? "");
             var user = _albumsService.DeleteAlbumAsync(id, userId);
