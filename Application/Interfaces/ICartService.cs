@@ -13,7 +13,7 @@ namespace Application.Interfaces
         CartDto AddAlbumCart(int idAlbum, int quantity, int idUser);
         List<PurchaseDto> GetAllPurchases(int idUser);
         CartDto GetCart(int idUser);
-        void MakePurchase(int idUser, int paymentMethod);
+        Task MakePurchase(int idUser, int paymentMethod);
         void RemoveAlbumCart(int id, int idUser);
     }
 }

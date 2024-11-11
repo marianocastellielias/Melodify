@@ -42,6 +42,7 @@ namespace Infrastructure.Data
         {
             return await _context.Albums
                 .Where(album => album.User.Id == userId)
+                .Include(album => album.Songs)
                 .ToListAsync();
         }
     }

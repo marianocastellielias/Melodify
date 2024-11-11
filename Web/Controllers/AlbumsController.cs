@@ -38,7 +38,7 @@ namespace Web.Controllers
             return Ok("Álbum creado exitosamente");
         }
 
-        [Authorize(Roles = nameof(UserRole.Artist))]
+        [Authorize(Roles = nameof(UserRole.Artist) + "," + nameof(UserRole.Client))]
         [HttpGet("my-albums")]
         public IActionResult GetMyAlbums()
         {

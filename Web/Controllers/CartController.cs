@@ -84,7 +84,13 @@ namespace Web.Controllers
             }
             catch (Exception ex)
             {
-                return BadRequest(ex.Message);
+                if (ex.Message.Contains("esta en el carrito"))
+                {
+                    return Conflict(new { message = ex.Message }); 
+                }
+
+                
+                return BadRequest(new { message = ex.Message });
             }
         }
 
@@ -114,7 +120,7 @@ namespace Web.Controllers
 
         [Authorize(Roles = nameof(UserRole.Client))]
         [HttpPatch("albums/purchase")]
-        public IActionResult MakePurchase([FromBody] AddPurchaseDto purchase)
+        public async Task<IActionResult> MakePurchase([FromBody] AddPurchaseDto purchase)
         {
             try
             {
@@ -123,7 +129,7 @@ namespace Web.Controllers
                 {
                     return NotFound("No hay un usuario logueado");
                 }
-                _cartService.MakePurchase(userId, purchase.PaymentMethod);
+                await _cartService.MakePurchase(userId, purchase.PaymentMethod);
                 return Ok("Compra realizada con exito !");
             }
             catch (NullReferenceException ex)

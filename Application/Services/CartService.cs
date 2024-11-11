@@ -34,7 +34,7 @@ namespace Application.Services
        
         public CartDto AddAlbumCart(int idAlbum, int quantity, int idUser)
         {
-            var album = _albumRepository.GetByIdAsync(idAlbum).Result
+            var album = _albumRepository.GetByIdAsync(idAlbum, a => a.Songs).Result
                 ?? throw new NullReferenceException("El album ingresado no existe");
             if (album.State == AlbumState.Rejected || album.State == AlbumState.Pending )
             {
@@ -85,16 +85,16 @@ namespace Application.Services
             cart.State = CartState.Pending;
             _cartRepository.UpdateAsync(cart).Wait();
         }
-       
-        public void MakePurchase(int idUser, int paymentMethod)
+
+        public async Task MakePurchase(int idUser, int paymentMethod)
         {
-            var cart = _cartRepository.GetMyCartPendingAsync(idUser).Result
+            var cart = await _cartRepository.GetMyCartPendingAsync(idUser)
                 ?? throw new NullReferenceException("El carrito no esta como pendiente o no existe");
 
             cart.State = CartState.Purchased;
             cart.PurchaseDate = DateTime.Now;
             cart.PaymentMethod = (PaymentMethod)paymentMethod;
-            _cartRepository.UpdateAsync(cart).Wait();
+            await _cartRepository.UpdateAsync(cart);
         }
         
         public List<PurchaseDto> GetAllPurchases(int idUser)

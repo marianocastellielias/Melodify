@@ -57,6 +57,13 @@ namespace Application.Services
 
         public AddUserDto AddUser(AddUserDto addUserDto)
         {
+
+            var existingUser = _userRepository.GetUserByEmail(addUserDto.Email);
+            if (existingUser != null)
+            {
+                throw new Exception("El usuario con este correo electrónico ya existe.");
+            }
+
             var user = new User
             {
                 Name = addUserDto.Name,

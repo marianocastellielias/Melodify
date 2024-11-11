@@ -18,6 +18,12 @@ namespace Web.Controllers
         public IActionResult Authentication([FromBody] AuthenticationValidate authenticationValidate)
         {
             string token = _authenticationService.Authenticate(authenticationValidate);
+
+            if (string.IsNullOrEmpty(token))
+            {
+                return Unauthorized("Credenciales incorrectas");
+            }
+
             return Ok(token);
         }
     }

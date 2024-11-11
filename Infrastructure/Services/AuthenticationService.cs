@@ -41,7 +41,8 @@ namespace Infrastructure.Services
 
             if (user == null)
             {
-                throw new Exception("User authentication failed");
+                //throw new Exception("User authentication failed");
+                return null;
             }
 
             var securityPassword = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(_configuration["AutenticacionService:SecretForKey"] ?? ""));

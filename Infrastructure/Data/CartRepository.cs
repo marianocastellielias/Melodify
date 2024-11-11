@@ -29,6 +29,7 @@ namespace Infrastructure.Data
             return await _context.Carts
                 .Include(c => c.AlbumsCart)
                 .ThenInclude(ac => ac.Album)
+                .ThenInclude(a => a.Songs)
                 .Where(c => c.UserId == userId && c.State == CartState.Purchased)
                 .ToListAsync();
         }

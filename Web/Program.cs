@@ -47,6 +47,15 @@ builder.Services.AddSwaggerGen(setupAction =>
  
 });
 
+// Configuración de CORS
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowReactApp",
+        policy => policy.WithOrigins("http://localhost:5173")
+                        .AllowAnyHeader()
+                        .AllowAnyMethod());
+});
+
 builder.Services.AddAuthentication("Bearer") 
     .AddJwtBearer(options => 
     {
@@ -99,6 +108,9 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+
+// Aplicar la política de CORS
+app.UseCors("AllowReactApp");
 
 app.UseAuthorization();
 

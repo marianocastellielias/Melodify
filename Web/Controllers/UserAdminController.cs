@@ -46,17 +46,31 @@ namespace Web.Controllers
         [HttpPost("Create-User")]
         public IActionResult CreateUser([FromBody] AddUserDto addUserDto)
         {
-            var user = _userAdminService.AddUser(addUserDto);
-            return Ok(user);
+            try
+            {
+                var user = _userAdminService.AddUser(addUserDto);
+                return Ok(user); // Si el usuario se crea correctamente, retorna un código 200 OK
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new { message = ex.Message }); // En caso de error, retorna un código 400 Bad Request
+            }
         }
+
 
         [Authorize(Roles = nameof(UserRole.Admin))]
         [HttpPut("Update-Role/{id}")]
-        public IActionResult UpdateRole([FromRoute]int id, [FromBody]UserRoleUpdateDTO userRoleUpdateDTO)
+        public IActionResult UpdateRole([FromRoute] int id, [FromBody] UserRoleUpdateDTO userRoleUpdateDTO)
         {
-
-            var user = _userAdminService.UpdateRole(id, userRoleUpdateDTO);
-            return Ok(user);
+            try
+            {
+                var user = _userAdminService.UpdateRole(id, userRoleUpdateDTO);
+                return Ok(new { message = "Rol actualizado con éxito" }); // Respuesta con mensaje de éxito
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new { message = ex.Message }); // Respuesta con mensaje de error
+            }
         }
 
         [Authorize(Roles = nameof(UserRole.Admin))]

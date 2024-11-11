@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
@@ -21,9 +22,18 @@ namespace Infrastructure.Data
             return await _dbContext.Set<T>().ToListAsync();
         }
 
-        public virtual async Task<T?> GetByIdAsync<TId>(TId id)
+        public virtual async Task<T?> GetByIdAsync<TId>(TId id, params Expression<Func<T, object>>[] includes)
         {
-            return await _dbContext.Set<T>().FindAsync(new object[] { id });
+            IQueryable<T> query = _dbContext.Set<T>();
+
+            // Agrega cada relación especificada en includes
+            foreach (var include in includes)
+            {
+                query = query.Include(include);
+            }
+
+            // Usa FirstOrDefaultAsync en lugar de FindAsync para poder aplicar los includes
+            return await query.FirstOrDefaultAsync(e => EF.Property<TId>(e, "Id")!.Equals(id));
         }
         public virtual async Task<T> AddAsync(T entity)
         {
